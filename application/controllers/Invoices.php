@@ -38,8 +38,10 @@ class Invoices extends CI_Controller
     function getInvoiceProducts()
     {
         $invId=$this->input->post('invId');
+        $invoice = $this->MInvoices->getInvoiceById($invId);
         $products=$this->MInvoices->getProducstByInvoice($invId);
-        $data['data']=$products['data'];
+        $data['invoice'] = $invoice['data'];
+        $data['products'] = $products['data'];
         $this->load->view('invoices/invoiceProducts',$data);
     }
 
@@ -287,4 +289,8 @@ class Invoices extends CI_Controller
         return $result;
     }
 
+    function printInvoice()
+		{
+			$this->load->view('invoices/print');
+		}
 }

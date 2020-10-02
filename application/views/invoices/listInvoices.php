@@ -34,21 +34,19 @@
                     </div>
                 </div>
 
-                <div class="modal fade bd-example-modal-lg" id="upd_project_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal fade bd-example-modal-lg" id="invoice_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalCenterTitle">Invoice Products</h5>
+                                <h5 class="modal-title" id="exampleModalCenterTitle">Invoice Details</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
                                 <div class="row">
-                                    <div class="col-md-12">
-                                        <form class='fill-up validatable sky-form' role='form' name='frm_modal1' id='frm_modal1' action="">
-                                            <div class="col-md-12" id="inv_products"></div>
-                                        </form>
+                                    <div class="col-md-12" id="inv_products">
+
                                     </div>
                                 </div>
                             </div>
@@ -83,51 +81,59 @@
             $("#invTable").hide();
         });
 
-    });
+		$("body").off('click').on('click', '#print', function(){
+			let modal = $('#invoice_modal');
+			let html = modal.find('#invTable').html();
+			let win = window.open('<?php echo base_url("Invoices/printInvoice")?>', '_blank', '');
+			win.onload = function () {
+				win.printInv(html);
+			}
+		});
 
-    function loadDataTableInvoices(isRefresh = false)
-    {
-        let spinner = '';
-        if(!isRefresh)
-        {
-            let target = document.getElementById('divContent');
-            spinner = new Spinner(opts).spin(target);
-        }
+		function loadDataTableInvoices(isRefresh = false)
+		{
+			let spinner = '';
+			if(!isRefresh)
+			{
+				let target = document.getElementById('divContent');
+				spinner = new Spinner(opts).spin(target);
+			}
 
-        $.ajax({
-            url: '<?php echo base_url("Invoices/getInvoices");?>',
-            type: 'POST',
-            data:{}
-        }).done(function(response, textStatus, jqXHR)
-        {
-            if(response !== 'NO_LOGGED')
-            {
-                $('#tblInvoices').html(response);
-                if(!isRefresh)
-                    dtInvoices();
-            }
-            else if(response === 'NO_LOGGED')
-            {
-                toastr.error("You don\'t have access.");
-                window.location.replace('<?php echo base_url()?>');
-            }
-            if(!isRefresh)
-                spinner.stop();
-        });
-    }
+			$.ajax({
+				url: '<?php echo base_url("Invoices/getInvoices");?>',
+				type: 'POST',
+				data:{}
+			}).done(function(response, textStatus, jqXHR)
+			{
+				if(response !== 'NO_LOGGED')
+				{
+					$('#tblInvoices').html(response);
+					if(!isRefresh)
+						dtInvoices();
+				}
+				else if(response === 'NO_LOGGED')
+				{
+					toastr.error("You don\'t have access.");
+					window.location.replace('<?php echo base_url()?>');
+				}
+				if(!isRefresh)
+					spinner.stop();
+			});
+		}
 
-    function dtInvoices()
-    {
-        return $('#tblInvoices').DataTable(
-            {
-                dom:
-                    "<'row'<'col-sm-3 col-md-3 col-lg-3'l>" +
-                        "<'col-sm-3 col-md-3 col-lg-3'>" +
-                        "<'col-sm-6 col-md-6 col-lg-6'f>>'tip'",
-                "scrollX": true,
-                language: { search: "",sLengthMenu: "_MENU_"}
-            });
-    }
+		function dtInvoices()
+		{
+			return $('#tblInvoices').DataTable(
+				{
+					dom:
+						"<'row'<'col-sm-3 col-md-3 col-lg-3'l>" +
+							"<'col-sm-3 col-md-3 col-lg-3'>" +
+							"<'col-sm-6 col-md-6 col-lg-6'f>>'tip'",
+					"scrollX": true,
+					language: { search: "",sLengthMenu: "_MENU_"}
+				});
+		}
+	});
 
 </script>
 

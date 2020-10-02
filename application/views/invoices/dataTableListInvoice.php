@@ -4,13 +4,11 @@
     <th style="" class="text-center">Date</th>
     <th style="" class="text-center">Number</th>
     <th style="" class="text-center">PO Number</th>
-    <th style="" class="text-center">Shipping Address</th>
-    <th style="" class="text-center">Billing Address</th>
     <th style="" class="text-center">Shipping Cost</th>
     <th style="" class="text-center">Sales Tax</th>
     <th style="" class="text-center">Discounts</th>
     <th style="" class="text-center">Comments</th>
-    <th style="width: 5%">Line Items</th>
+    <th style="width: 5%"></th>
 </tr>
 </thead>
 
@@ -32,15 +30,13 @@ if(isset($data))
             <td style="" class="text-center"><?php print date_format(date_create($row->inv_date),"m/d/Y");?></td>
             <td style="" class="text-center"><?php print $row->inv_number;?></td>
             <td style="" class="text-center" ><?php print $row->inv_po_number;?></td>
-            <td style="" class="text-center" ><?php print $row->inv_shipping_address;?></td>
-            <td style="" class="text-center" ><?php print $row->inv_billing_address;?></td>
             <td style="" class="text-center"><?php print $row->inv_shipping_cost;?></td>
             <td style="" class="text-center" ><?php print $row->inv_sales_tax;?></td>
             <td style="" class="text-center" ><?php print $row->inv_discount;?></td>
             <td style="" class="text-center" ><?php print $row->inv_comments;?></td>
             <td class="row_update_project text-center"
-                id="<?php print $row->id;?>" data-toggle="modal" data-target="#upd_project_modal">
-                <span class="fas fa-clipboard-list"></span>
+                id="<?php print $row->id;?>" data-toggle="modal" data-target="#invoice_modal">
+                <span class="fas fa-search"></span>
             </td>
         </tr>
 

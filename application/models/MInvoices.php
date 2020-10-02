@@ -30,6 +30,22 @@ Class MInvoices extends CI_Model
         return $return;
     }
 
+    function getInvoiceById($invId)
+    {
+        $this -> db -> select('*');
+        $this -> db -> from('invoices');
+        $this -> db -> where('id = ' . "'" . $invId . "'");
+
+        $query = $this -> db -> get();//var_dump($query->result());die();
+
+        if($query -> num_rows() >= 1)
+            $return=$this->result(0, 0, $query->result());
+        else
+            $return=$this->result(1, 'NO_DATA');
+
+        return $return;
+    }
+
     function getProducstByInvoice($invId)
     {
         $this -> db -> select('*');
